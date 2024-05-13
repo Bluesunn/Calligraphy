@@ -1,6 +1,6 @@
 <template>
     <el-container class="mycontainer">
-      <el-aside width="200px" class="leftmenu">
+      <el-aside width="auto" class="leftmenu">
         <MenuBar></MenuBar>
       </el-aside>
       <el-container>
@@ -22,13 +22,13 @@
   .mycontainer{
       height: 100%;
       .leftmenu{
-        background-color: rebeccapurple;
+        background-color: #304156;
     }
       .header{
-        background-color: sandybrown;
+        background-color: #009688;
     }
       .main{
-        background-color: blue;
+        background-color: darkgoldenrod;
 
     }
   }
