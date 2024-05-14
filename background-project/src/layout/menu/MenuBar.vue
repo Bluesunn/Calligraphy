@@ -1,7 +1,7 @@
 <template>
    <MenuLogo></MenuLogo>
    <el-menu
-    default-active="2"
+    default-active="defaultActive"
     class="el-menu-vertical-demo"
     :collapse="isCollapse"
     @open="handleOpen"
@@ -16,10 +16,21 @@
 
 <script setup lang="ts">
 
-    import { ref,reactive} from 'vue'
+    import { ref,reactive, computed} from 'vue'
+    import { useRoute } from 'vue-router';
     import MenuItem from '@/layout/menu/MenuItem.vue';
     import MenuLogo from '@/layout/menu/MenuLogo.vue';
     
+    
+    const route = useRoute();
+    const isCollapse = ref(false);
+    //当前激活菜单
+    const defaultActive = computed(()=>{
+      const {path} = route;
+      return path;
+    })
+    
+    //菜单数据
     let menuList =reactive([
         {
           path: "/system",
@@ -98,7 +109,7 @@
         
     ])
 
-    const isCollapse = ref(false)
+    
     const handleOpen = (key: string, keyPath: string[]) => {
     console.log(key, keyPath)
     }
