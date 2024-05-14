@@ -7,6 +7,7 @@
     @open="handleOpen"
     @close="handleClose"
     background-color="#304156"
+    router
   >
     <!-- 前面的menuList是子组件MenuItem里定义的形参，后面是父组件中定义的对象数组 -->
     <MenuItem :menuList="menuList"></MenuItem>
