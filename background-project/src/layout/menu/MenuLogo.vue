@@ -9,7 +9,7 @@
     import MenuLogo from '@/assets/MenuLogo.png';
     import { ref } from 'vue';
 
-    const title = ref ('通用权限系统');
+    const title = ref ('后台管理系统');
 
 </script>
 
