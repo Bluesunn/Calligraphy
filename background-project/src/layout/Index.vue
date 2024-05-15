@@ -31,7 +31,7 @@
         background-color: #009688;
     }
       .main{
-        background-color: darkgoldenrod;
+        // background-color: darkgoldenrod;
 
     }
   }

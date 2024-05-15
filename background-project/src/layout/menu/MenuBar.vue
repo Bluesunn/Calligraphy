@@ -1,7 +1,7 @@
 <template>
    <MenuLogo></MenuLogo>
    <el-menu
-    default-active="defaultActive"
+    :default-active="defaultActive"
     class="el-menu-vertical-demo"
     :collapse="isCollapse"
     @open="handleOpen"
