@@ -33,6 +33,17 @@
     
     //菜单数据
     let menuList =reactive([
+        { 
+            path: "/dashboard",
+            component: () => import('@/views/dashboard/Index.vue'),
+            name: "dashboard",
+            meta: {
+              title: "首页",
+              icon: "House",
+              roles:["sys:dashboard"],
+            }
+        },
+      
         {
           path: "/system",
           component: "Layout",

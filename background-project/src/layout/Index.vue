@@ -20,7 +20,7 @@
   import MenuBar from '@/layout/menu/MenuBar.vue';
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 
   .mycontainer{
       height: 100%;
