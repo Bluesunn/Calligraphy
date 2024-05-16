@@ -1,6 +1,6 @@
 <template>
-   <MenuLogo></MenuLogo>
-   <el-menu
+  <MenuLogo></MenuLogo>
+  <el-menu
     :default-active="defaultActive"
     class="el-menu-vertical-demo"
     :collapse="isCollapse"
@@ -16,43 +16,41 @@
 </template>
 
 <script setup lang="ts">
+import { ref, reactive, computed } from "vue";
+import { useRoute } from "vue-router";
+import MenuItem from "@/layout/menu/MenuItem.vue";
+import MenuLogo from "@/layout/menu/MenuLogo.vue";
 
-    import { ref,reactive, computed} from 'vue'
-    import { useRoute } from 'vue-router';
-    import MenuItem from '@/layout/menu/MenuItem.vue';
-    import MenuLogo from '@/layout/menu/MenuLogo.vue';
-    
-    
-    const route = useRoute();
-    const isCollapse = ref(false);
-    //当前激活菜单
-    const defaultActive = computed(()=>{
-      const {path} = route;
-      return path;
-    })
-    
-    //菜单数据
-    let menuList =reactive([
-        { 
-            path: "/dashboard",
-            component: () => import('@/views/dashboard/Index.vue'),
-            name: "dashboard",
-            meta: {
-              title: "首页",
-              icon: "House",
-              roles:["sys:dashboard"],
-            }
-        },
-      
-        {
-          path: "/system",
-          component: "Layout",
-          name: "system",
-          meta: {
-            title: "系统管理",
-            icon: "Setting",
-            roles: ["sys:manage"],
-          },
+const route = useRoute();
+const isCollapse = ref(false);
+//当前激活菜单
+const defaultActive = computed(() => {
+  const { path } = route;
+  return path;
+});
+
+//菜单数据
+let menuList = reactive([
+  {
+    path: "/dashboard",
+    component: () => import("@/views/dashboard/Index.vue"),
+    name: "dashboard",
+    meta: {
+      title: "首页",
+      icon: "House",
+      roles: ["sys:dashboard"],
+    },
+  },
+
+  {
+    path: "/system",
+    component: "Layout",
+    name: "system",
+    meta: {
+      title: "系统管理",
+      icon: "Setting",
+      roles: ["sys:manage"],
+    },
     children: [
       {
         path: "/userList",
@@ -115,23 +113,21 @@
           icon: "Wallet",
           roles: ["sys:goodsList"],
         },
-      }
-    ]
-  }        
-        
-    ])
+      },
+    ],
+  },
+]);
 
-    
-    const handleOpen = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-    }
-    const handleClose = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-    }
+const handleOpen = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath);
+};
+const handleClose = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath);
+};
 </script>
 
-    <style scoped lang="scss">
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
+<style scoped lang="scss">
+.el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 230px;
   min-height: 400px;
 }
@@ -139,26 +135,26 @@
   border-right: none;
 }
 
-:deep(.el-sub-menu .el-sub-menu__title){
-	 color: #f4f4f5 !important;
+:deep(.el-sub-menu .el-sub-menu__title) {
+  color: #f4f4f5 !important;
 }
 
-:deep(.el-menu .el-menu-item){
-	color: #bfcbd9;
+:deep(.el-menu .el-menu-item) {
+  color: #bfcbd9;
 }
 /* 菜单点中文字的颜色 */
 
-:deep(.el-menu-item.is-active){
-	color: #409eff !important;
+:deep(.el-menu-item.is-active) {
+  color: #409eff !important;
 }
 /* 当前打开菜单的所有子菜单颜色 */
 
-:deep(.is-opened .el-menu-item){
-	background-color: #1f2d3d !important;
+:deep(.is-opened .el-menu-item) {
+  background-color: #1f2d3d !important;
 }
 /* 鼠标移动菜单的颜色 */
 
-:deep(.el-menu-item:hover){
-	background-color: #001528 !important;
+:deep(.el-menu-item:hover) {
+  background-color: #001528 !important;
 }
 </style>
