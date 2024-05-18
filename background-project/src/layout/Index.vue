@@ -28,8 +28,5 @@ import MenuBar from "@/layout/menu/MenuBar.vue";
   .header {
     background-color: #009688;
   }
-  .main {
-    // background-color: darkgoldenrod;
-  }
 }
 </style>
