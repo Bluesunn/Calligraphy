@@ -7,8 +7,8 @@
     :title="dialog.title"
     :height="dialog.height"
     :width="dialog.width"
-    @on-close="onClose"
-    @on-confirm="onConfirm"
+    @onClose="onClose"
+    @onConfirm="onConfirm"
   >
     <template v-slot:content> <div>张三</div> </template>
   </SysDialog>
@@ -17,9 +17,8 @@
 <script setup lang="ts">
 import SysDialog from "@/components/SysDialog.vue";
 import useDialog from "@/hooks/useDialog";
-import { reactive } from "vue";
 
-const { dialog, onClose, onConfirm, onShow } = useDialog();
+const { dialog, onClose, onConfirm, onShow } = useDialog(); //解构赋值
 
 //调用封装好的弹框组件
 const addBtn = () => {

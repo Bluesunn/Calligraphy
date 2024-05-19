@@ -19,7 +19,7 @@ import Header from "@/layout/header/Header.vue";
 import MenuBar from "@/layout/menu/MenuBar.vue";
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .mycontainer {
   height: 100%;
   .leftmenu {

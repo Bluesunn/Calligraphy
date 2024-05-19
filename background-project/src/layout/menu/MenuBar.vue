@@ -126,7 +126,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 230px;
   min-height: 400px;

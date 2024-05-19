@@ -11,6 +11,8 @@
 
 # 路由部分
 
-在router文件夹下面的index.ts设置好路由对象及其子路由对象，启动项目时Vue Route根据文件里路由对象设定的URL来进行渲染，首先渲染layout文件夹里的Index.vue组件，把layout界面的骨架部分渲染在App.vue组件里。然后重定向到dashboard文件夹，继续渲染里面的组件在Index.vue里（嵌套路由，因为只设置了两个路由出口，一个在App.vue，一个在Index.vue)。
+在 router 文件夹下面的 index.ts 设置好路由对象及其子路由对象，启动项目时 Vue Route 根据文件里路由对象设定的 URL 来进行渲染，首先渲染 layout 文件夹里的 Index.vue 组件，把 layout 界面的骨架部分渲染在 App.vue 组件里。然后重定向到 dashboard 文件夹，继续渲染里面的组件在 Index.vue 里（嵌套路由，因为只设置了两个路由出口，一个在 App.vue，一个在 Index.vue)。
 
-渲染完整个界面后，在element-plus提供的menu组件里开启route属性，它就会以当前点击的菜单的index属性作为path去路由文件中进行寻找并跳转
+渲染完整个界面后，在 element-plus 提供的 menu 组件里开启 route 属性，它就会以当前点击的菜单的 index 属性作为 path 去路由文件中进行寻找并跳转
+
+# 弹框组件封装

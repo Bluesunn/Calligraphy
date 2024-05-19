@@ -4,7 +4,7 @@
     :title="props.title"
     :width="props.width + 'px'"
     :before-close="onClose"
-    append-on-body
+    append-to-body
   >
     <div :style="{ height: props.height + 'px' }">
       <!-- 父组件传递过来的“东西”在此处展示 -->
@@ -26,7 +26,7 @@ interface DialogProps {
   width?: number;
   height?: number;
 }
-//接收父组件传递数据
+//定义props默认值
 const props = withDefaults(defineProps<DialogProps>(), {
   title: "标题",
   visible: false,
@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<DialogProps>(), {
   height: 250,
 });
 
-//
+//自定义事件
 const emit = defineEmits(["onClose", "onConfirm"]);
 //定义弹框的关闭
 const onClose = () => {
@@ -46,14 +46,17 @@ const onConfirm = () => {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scope>
 .container {
   overflow-x: initial;
   overflow-y: auto;
 }
 .el-dialog {
+  padding: 0%;
   border-top-left-radius: 7px !important;
   border-top-right-radius: 7px !important;
+  border-bottom-left-radius: 7px !important;
+  border-bottom-right-radius: 7px !important;
   .el-dialog__header {
     margin-right: 0px;
     border-top-left-radius: 7px !important;
@@ -63,6 +66,9 @@ const onConfirm = () => {
       color: #fff;
       font-size: 16px;
       font-weight: 600;
+      padding-left: 10px;
+      position: relative;
+      top: 7px;
     }
   }
   .el-dialog__headerbtn {
