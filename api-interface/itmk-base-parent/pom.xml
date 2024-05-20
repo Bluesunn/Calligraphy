@@ -12,6 +12,7 @@
         <module>itmk-base-common</module>
         <module>itmk-base-web</module>
     </modules>
+<!--    dfd-->
 
     <parent>
         <groupId>org.springframework.boot</groupId>
