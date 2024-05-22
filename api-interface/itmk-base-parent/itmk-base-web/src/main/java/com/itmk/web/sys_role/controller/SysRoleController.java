@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
-@RequestMapping
+@RequestMapping("/api/role")
 @RestController
 public class SysRoleController {
     @Autowired
@@ -22,7 +22,7 @@ public class SysRoleController {
     //新增
     @PostMapping
     public ResultVo add(@RequestBody SysRole sysRole ){
-        sysRole.setUpdateTime(new Date());
+        sysRole.setCreateTime(new Date());
         if(sysRoleService.save(sysRole)){
             return ResultUtils.success("新增成功！");
         }

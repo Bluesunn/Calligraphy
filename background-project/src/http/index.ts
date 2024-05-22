@@ -9,6 +9,7 @@ import { ElMessage } from "element-plus";
 //axios配置项
 const config = {
   baseURL: "http://localhost:8089", //请求接口的地址
+  // baseURL: "/api",
   timeout: 10000,
 };
 
