@@ -16,6 +16,43 @@
         <el-button icon="Plus" type="primary" @click="addBtn">新增</el-button>
       </el-form-item>
     </el-form>
+    <!-- 表格数据 -->
+    <el-table :height="tableHeight" :data="tableList" border stripe>
+      <el-table-column prop="roleName" label="角色名称"></el-table-column>
+      <el-table-column prop="remark" label="角色备注"></el-table-column>
+      <el-table-column label="操作" width="220" align="center">
+        <template #default="scope">
+          <el-button
+            type="primary"
+            icon="Edit"
+            size="default"
+            @click="editBtn(scope.row)"
+            >编辑</el-button
+          >
+          <el-button
+            type="danger"
+            icon="Delete"
+            size="default"
+            @click="deleteBtn(scope.row.roleId)"
+            >删除</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <!-- 分页 -->
+    <el-pagination
+      @size-change="sizeChange"
+      @current-change="currentChange"
+      :current-page.sync="searchParm.currentPage"
+      :page-sizes="[10, 20, 40, 80, 100]"
+      :page-size="searchParm.pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="searchParm.total"
+      background
+    >
+    </el-pagination>
+
     <SysDialog
       :title="dialog.title"
       :width="dialog.width"
@@ -48,12 +85,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 //引入弹窗组件和弹窗钩子
 import useDialog from "@/hooks/useDialog";
 import SysDialog from "@/components/SysDialog.vue";
-import { addApi } from "@/api/role";
+import { addApi, getListApi } from "@/api/role";
+import { SysRole } from "@/api/role/RoleModel";
+import { nextTick } from "vue";
 
 //表单ref属性（类似于id）
 const addRef = ref<FormInstance>();
@@ -66,6 +105,14 @@ const searchParm = reactive({
   currentPage: 1,
   pageSize: 10,
   roleName: "",
+  total: 0,
+});
+
+//新增表单对象
+const addModel = reactive({
+  roleId: "",
+  roleName: "",
+  remark: "",
 });
 
 //新增按钮
@@ -76,13 +123,6 @@ const addBtn = () => {
   //显示弹窗
   onShow();
 };
-
-//新增表单对象
-const addModel = reactive({
-  roleId: "",
-  roleName: "",
-  remark: "",
-});
 
 //表单验证规则
 const rules = reactive({
@@ -109,8 +149,60 @@ const commit = () => {
     }
   });
 };
-const searchBtn = () => {};
-const resetBtn = () => {};
+
+//表格高度
+const tableHeight = ref(0);
+//表格数据
+const tableList = ref([]);
+
+//查询列表
+const getList = async () => {
+  let res = await getListApi(searchParm);
+  if (res && res.code == 200) {
+    //设置表格数据
+    console.log(res);
+    tableList.value = res.data.records;
+    //设置分页总条数
+    searchParm.total = res.data.total;
+  }
+};
+
+//编辑按钮
+const editBtn = (row: SysRole) => {
+  console.log(row);
+};
+
+//删除按钮
+const deleteBtn = (roleId: string) => {
+  console.log(roleId);
+};
+
+//页容量改变时触发
+const sizeChange = (size: number) => {
+  searchParm.pageSize = size;
+  getList();
+};
+//页数改变时触发
+const currentChange = (page: number) => {
+  searchParm.currentPage = page;
+  getList();
+};
+
+//搜索
+const searchBtn = () => {
+  getList();
+};
+const resetBtn = () => {
+  searchParm.roleName = "";
+  searchParm.currentPage = 1;
+  getList();
+};
+onMounted(() => {
+  nextTick(() => {
+    tableHeight.value = window.innerHeight - 230;
+  });
+  getList();
+});
 </script>
 
 <style scoped></style>

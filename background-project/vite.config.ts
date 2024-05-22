@@ -10,6 +10,7 @@ export default defineConfig({
     port: 8081,
     hmr: true,
     open: true,
+    //代理服务器
     // proxy: {
     //   "/api": {
     //     target: "http://localhost:8089/", //接口地址
