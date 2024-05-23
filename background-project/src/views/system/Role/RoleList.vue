@@ -90,9 +90,12 @@ import { ElMessage, FormInstance } from "element-plus";
 //引入弹窗组件和弹窗钩子
 import useDialog from "@/hooks/useDialog";
 import SysDialog from "@/components/SysDialog.vue";
-import { addApi, getListApi } from "@/api/role";
+import { addApi, getListApi, editApi, deleteApi } from "@/api/role";
 import { SysRole } from "@/api/role/RoleModel";
 import { nextTick } from "vue";
+import useInstance from "@/hooks/useInstance";
+//获取全局global
+const { global } = useInstance();
 
 //表单ref属性（类似于id）
 const addRef = ref<FormInstance>();
@@ -114,14 +117,20 @@ const addModel = reactive({
   roleName: "",
   remark: "",
 });
+//判断新增还是编辑
+
+const tags = ref("");
 
 //新增按钮
 const addBtn = () => {
+  tags.value = "0";
   //改变弹窗信息
   dialog.title = "新增";
   dialog.height = 180;
   //显示弹窗
   onShow();
+  //清空表单数据
+  addRef.value?.resetFields();
 };
 
 //表单验证规则
@@ -141,9 +150,17 @@ const commit = () => {
     if (valid) {
       console.log("表单验证通过");
       //提交请求
-      let res = await addApi(addModel);
+      let res = null;
+      if (tags.value == "0") {
+        res = await addApi(addModel);
+      } else {
+        res = await editApi(addModel);
+      }
+
       if (res && res.code == 200) {
         ElMessage.success(res.msg);
+        //刷新列表
+        getList();
         onClose();
       }
     }
@@ -169,12 +186,36 @@ const getList = async () => {
 
 //编辑按钮
 const editBtn = (row: SysRole) => {
+  tags.value = "1";
   console.log(row);
+  //显示弹框
+  onShow();
+  dialog.title = "编辑";
+  dialog.height = 100;
+
+  nextTick(() => {
+    //回显数据
+    Object.assign(addModel, row);
+  });
+
+  addRef.value?.resetFields();
 };
 
 //删除按钮
-const deleteBtn = (roleId: string) => {
+const deleteBtn = async (roleId: string) => {
   console.log(roleId);
+  console.log(global);
+  const confirm = await global.$myconfirm("确定删除该数据吗？");
+  //confirm返回的是一个状态
+  console.log(confirm);
+  if (confirm) {
+    let res = await deleteApi(roleId);
+    if (res && res.code == 200) {
+      ElMessage.success(res.msg);
+      //刷新列表
+      getList();
+    }
+  }
 };
 
 //页容量改变时触发
@@ -192,6 +233,8 @@ const currentChange = (page: number) => {
 const searchBtn = () => {
   getList();
 };
+
+//重置
 const resetBtn = () => {
   searchParm.roleName = "";
   searchParm.currentPage = 1;

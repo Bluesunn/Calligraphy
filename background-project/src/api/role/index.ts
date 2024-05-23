@@ -10,3 +10,13 @@ export const addApi = (parm: SysRole) => {
 export const getListApi = (parm: RoleListParm) => {
   return http.get("/api/role/getList", parm);
 };
+
+//编辑
+export const editApi = (parm: SysRole) => {
+  return http.put("/api/role", parm);
+};
+
+//删除
+export const deleteApi = (roleId: string) => {
+  return http.delete(`/api/role/${roleId}`);
+};

@@ -10,6 +10,7 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 //国际化
 import zhCn from "element-plus/es/locale/lang/zh-cn";
+import myconfirm from "./utils/myconfirm";
 
 const pinia = createPinia();
 //createApp(App).mount('#app')
@@ -18,3 +19,6 @@ app.use(router).use(ElementPlus, { locale: zhCn }).use(pinia).mount("#app");
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
+
+//全局挂载
+app.config.globalProperties.$myconfirm = myconfirm;
