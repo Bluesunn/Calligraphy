@@ -8,11 +8,15 @@ import com.itmk.utils.ResultVo;
 import com.itmk.web.sys_role.entity.RoleParm;
 import com.itmk.web.sys_role.entity.SysRole;
 import com.itmk.web.sys_role.service.SysRoleService;
+import com.itmk.web.sys_user.entity.SelectItme;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/api/role")
 @RestController
@@ -58,5 +62,21 @@ public class SysRoleController {
         query.lambda().orderByDesc(SysRole::getUpdateTime);//用于将新增的数据显示在列表的最上层
         IPage<SysRole> list = sysRoleService.page(page, query);//调用方法实现
         return ResultUtils.success("查询成功",list);
+    }
+    //角色下拉数据
+    @GetMapping("/selectList")
+    public ResultVo selectList(){
+        List<SysRole> list = sysRoleService.list();
+        //返回的值
+        List<SelectItme> selectItmes = new ArrayList<>();
+        Optional.ofNullable(list).orElse(new ArrayList<>())
+                .forEach(item ->{
+                    SelectItme vo = new SelectItme();
+                    vo.setCheck(false);
+                    vo.setLabel(item.getRoleName());
+                    vo.setValue(item.getRoleId());
+                    selectItmes.add(vo);
+                });
+        return  ResultUtils.success("查询成功",selectItmes);
     }
 }

@@ -3,6 +3,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * @Author java实战基地
+ * @Version 2383404558
+ */
 @Configuration
 public class MvcConfiguration implements WebMvcConfigurer {
     /**
