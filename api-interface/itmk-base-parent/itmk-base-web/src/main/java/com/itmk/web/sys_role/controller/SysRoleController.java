@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itmk.utils.ResultUtils;
 import com.itmk.utils.ResultVo;
 import com.itmk.web.sys_role.entity.RoleParm;
+import com.itmk.web.sys_role.entity.SelectItme;
 import com.itmk.web.sys_role.entity.SysRole;
 import com.itmk.web.sys_role.service.SysRoleService;
-import com.itmk.web.sys_user.entity.SelectItme;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +59,7 @@ public class SysRoleController {
         if(StringUtils.isNotEmpty(parm.getRoleName())){//判断是否为空
             query.lambda().like(SysRole::getRoleName,parm.getRoleName());//封装模糊查询
         }
-        query.lambda().orderByDesc(SysRole::getUpdateTime);//用于将新增的数据显示在列表的最上层
+        query.lambda().orderByDesc(SysRole::getCreateTime);//用于将新增的数据显示在列表的最上层
         IPage<SysRole> list = sysRoleService.page(page, query);//调用方法实现
         return ResultUtils.success("查询成功",list);
     }
