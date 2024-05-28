@@ -22,7 +22,7 @@ import java.util.Optional;
 @RestController
 public class SysRoleController {
     @Autowired
-    private SysRoleService sysRoleService;
+    private SysRoleService sysRoleService;//注入接口对象，而不注入实现类对象，内聚解耦
     //新增
     @PostMapping
     public ResultVo add(@RequestBody SysRole sysRole ){
