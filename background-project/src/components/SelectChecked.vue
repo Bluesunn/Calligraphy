@@ -97,6 +97,14 @@ const selectAll = (isAll: boolean) => {
   }
   emit("selected", selectedOptions.value);
 };
+
+//清空数据
+const clear = () => {
+  selectedOptions.value = [];
+};
+defineExpose({
+  clear,
+});
 </script>
 
 <style lang="scss">

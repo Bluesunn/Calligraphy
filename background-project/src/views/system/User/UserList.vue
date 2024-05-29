@@ -69,6 +69,7 @@
             <el-col :span="12" :offset="0">
               <el-form-item prop="roleId" label="角色：">
                 <SelectChecked
+                  ref="selectRef"
                   :options="options"
                   @selected="selected"
                 ></SelectChecked>
@@ -95,17 +96,24 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
+import { nextTick, onMounted, reactive, ref } from "vue";
 import SysDialog from "@/components/SysDialog.vue";
 import useDialog from "@/hooks/useDialog";
-import { FormInstance } from "element-plus";
+import { ElMessage, FormInstance } from "element-plus";
 import SelectChecked from "@/components/SelectChecked.vue";
 import { getSelectApi } from "@/api/role";
+import { addApi } from "@/api/user";
+const selectRef = ref();
+
+//下拉数据
+let options = ref([]);
 
 //表单ref属性
 const addForm = ref<FormInstance>();
+
 //弹框属性
 const { dialog, onClose, onShow } = useDialog();
+
 //搜索栏绑定对象
 const searchParm = reactive({
   phone: "",
@@ -113,6 +121,7 @@ const searchParm = reactive({
   currentPage: 1,
   pageSize: 10,
 });
+
 //新增绑定对象
 const addModel = reactive({
   userId: "",
@@ -124,6 +133,7 @@ const addModel = reactive({
   nickName: "",
   roleId: "",
 });
+
 //表单验证规则
 const rules = reactive({
   nickName: [
@@ -161,17 +171,38 @@ const rules = reactive({
       message: "请输入密码",
     },
   ],
+  roleId: [
+    {
+      required: true,
+      trigger: ["blur", "change"],
+      message: "请选择角色",
+    },
+  ],
 });
+
+//查询角色下拉数据
+const getSelect = async () => {
+  let res = await getSelectApi();
+  if (res && res.code == 200) {
+    options.value = res.data;
+  }
+};
+
 //新增按钮
 const addBtn = () => {
+  getSelect();
   dialog.title = "新增";
   dialog.height = 210;
   //显示弹框
   onShow();
-};
+  //清空下拉数据
+  nextTick(() => {
+    selectRef.value.clear();
+  });
 
-//下拉数据
-let options = ref([]);
+  //清空表单
+  addForm.value?.resetFields();
+};
 
 //勾选的值
 const selected = (value: Array<string | number>) => {
@@ -183,22 +214,20 @@ const selected = (value: Array<string | number>) => {
 //提交表单
 const commit = () => {
   //验证表单
-  addForm.value?.validate((valid) => {
+  addForm.value?.validate(async (valid) => {
     if (valid) {
       console.log("验证通过");
+      let res = await addApi(addModel);
+      if (res && res.code == 200) {
+        ElMessage.success(res.msg);
+        onClose;
+      }
     }
   });
 };
 
-//查询角色下拉数据
-const getSelect = async () => {
-  let res = await getSelectApi();
-  if (res && res.code == 200) {
-    options.value = res.data;
-  }
-};
 onMounted(() => {
-  getSelect();
+  // getSelect()
 });
 </script>
 
