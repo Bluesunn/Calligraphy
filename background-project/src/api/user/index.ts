@@ -6,6 +6,11 @@ export const addApi = (parm: User) => {
   return http.post("/api/sysUser", parm);
 };
 
+//删除
+export const deleteApi = (userId: string) => {
+  return http.delete(`/api/sysUser/${userId}`);
+};
+
 //列表
 export const getListApi = (parm: UserListParm) => {
   return http.get("/api/sysUser/list", parm);

@@ -33,7 +33,6 @@
             type="primary"
             size="default"
             effect="dark"
-            closable
             >男</el-tag
           >
           <el-tag
@@ -41,7 +40,6 @@
             type="danger"
             size="default"
             effect="dark"
-            closable
             >女</el-tag
           >
         </template>
@@ -166,8 +164,18 @@ import useDialog from "@/hooks/useDialog";
 import { ElMessage, FormInstance } from "element-plus";
 import SelectChecked from "@/components/SelectChecked.vue";
 import { getSelectApi } from "@/api/role";
-import { addApi, getListApi, getRoleListApi, editApi } from "@/api/user";
+import {
+  addApi,
+  getListApi,
+  getRoleListApi,
+  editApi,
+  deleteApi,
+} from "@/api/user";
 import { User } from "@/api/user/UserModel";
+import useInstance from "@/hooks/useInstance";
+
+//获取全局global
+const { global } = useInstance();
 
 //提交表单时分辨是哪一个操作
 const tags = ref("");
@@ -331,8 +339,20 @@ const editBtn = async (row: User) => {
 };
 
 //删除
-const deleteBtn = (userId: string) => {
+const deleteBtn = async (userId: string) => {
   console.log(userId);
+  console.log(global);
+  const confirm = await global.$myconfirm("确定删除该数据吗？");
+  //confirm返回的是一个状态
+  console.log(confirm);
+  if (confirm) {
+    let res = await deleteApi(userId);
+    if (res && res.code == 200) {
+      ElMessage.success(res.msg);
+      //刷新列表
+      getList();
+    }
+  }
 };
 
 //勾选的值
