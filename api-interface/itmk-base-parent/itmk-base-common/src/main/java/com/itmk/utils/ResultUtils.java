@@ -12,7 +12,7 @@ public class ResultUtils {
      */
     public static ResultVo succcess() {
         return Vo(null, StatusCode.SUCCESS_CODE, null);
-    }
+    }//代码所在的环境中自定义编写的一个方法
     public static ResultVo success(String msg){
         return Vo(msg,StatusCode.SUCCESS_CODE,null);
     }
