@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itmk.utils.ResultUtils;
 import com.itmk.utils.ResultVo;
 import com.itmk.web.sys_role.entity.RoleParm;
-import com.itmk.web.sys_role.entity.SelectItme;
+import com.itmk.web.sys_role.entity.Itme;
 import com.itmk.web.sys_role.entity.SysRole;
 import com.itmk.web.sys_role.service.SysRoleService;
 import org.apache.commons.lang.StringUtils;
@@ -57,7 +57,7 @@ public class SysRoleController {
         //构造查询条件
         QueryWrapper<SysRole> query = new QueryWrapper<>();
         if(StringUtils.isNotEmpty(parm.getRoleName())){//判断是否为空
-            query.lambda().like(SysRole::getRoleName,parm.getRoleName());//封装模糊查询
+            query.lambda().like(SysRole::getRoleName,parm.getRoleName());//封装模糊查询,隐式地关联到了具体的 SysRole 对象实例
         }
         query.lambda().orderByDesc(SysRole::getCreateTime);//用于将新增的数据显示在列表的最上层
         IPage<SysRole> list = sysRoleService.page(page, query);//调用方法实现
@@ -68,10 +68,10 @@ public class SysRoleController {
     public ResultVo selectList(){
         List<SysRole> list = sysRoleService.list();
         //返回的值
-        List<SelectItme> selectItmes = new ArrayList<>();
+        List<Itme> selectItmes = new ArrayList<>();
         Optional.ofNullable(list).orElse(new ArrayList<>())
                 .forEach(item ->{
-                    SelectItme vo = new SelectItme();
+                    Itme vo = new Itme();
                     vo.setCheck(false);
                     vo.setLabel(item.getRoleName());
                     vo.setValue(item.getRoleId());

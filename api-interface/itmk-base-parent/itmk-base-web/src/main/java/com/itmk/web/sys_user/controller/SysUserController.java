@@ -49,8 +49,8 @@ public class SysUserController {
         return  ResultUtils.success("删除成功！");
     }
     //列表
-    @GetMapping("/getList")
-    public ResultVo getlist(SysUserPage parm) {
+    @GetMapping("/list")
+    public ResultVo list(SysUserPage parm) {
         //构造分页对象
         IPage<SysUser> Page=new Page<>(parm.getCurrentPage(),parm.getPageSize());
         //构造查询条件
@@ -94,4 +94,6 @@ public class SysUserController {
         }
         return ResultUtils.error("密码重置失败!");
     }
+
+
 }
