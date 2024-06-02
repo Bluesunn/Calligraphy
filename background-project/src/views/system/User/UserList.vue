@@ -131,6 +131,7 @@
                 <SelectChecked
                   ref="selectRef"
                   :options="options"
+                  :bindValue="bindValue"
                   @selected="selected"
                 ></SelectChecked>
               </el-form-item>
@@ -142,10 +143,13 @@
             </el-col>
           </el-row>
 
-          <el-row>
+          <el-row v-if="tags == '0'">
             <el-col :span="12" :offset="0">
               <el-form-item prop="password" label="密码：">
-                <el-input v-model="addModel.password"></el-input>
+                <el-input
+                  type="password"
+                  v-model="addModel.password"
+                ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -162,8 +166,13 @@ import useDialog from "@/hooks/useDialog";
 import { ElMessage, FormInstance } from "element-plus";
 import SelectChecked from "@/components/SelectChecked.vue";
 import { getSelectApi } from "@/api/role";
-import { addApi, getListApi } from "@/api/user";
+import { addApi, getListApi, getRoleListApi, editApi } from "@/api/user";
 import { User } from "@/api/user/UserModel";
+
+//提交表单时分辨是哪一个操作
+const tags = ref("");
+
+//用于操作组件
 const selectRef = ref();
 
 //表格高度
@@ -174,6 +183,10 @@ const tableList = ref([]);
 
 //下拉数据
 let options = ref([]);
+
+//用户拥有的角色ID
+const bindValue = ref([]);
+let roleIds = ref("");
 
 //表单ref属性
 const addForm = ref<FormInstance>();
@@ -248,6 +261,17 @@ const rules = reactive({
   ],
 });
 
+//根据用户id查询角色
+const getRoleList = async (userId: string) => {
+  let res = await getRoleListApi(userId);
+  if (res && res.code == 200) {
+    bindValue.value = res.data;
+    console.log(res.data);
+    roleIds.value = res.data.join(",");
+    console.log(roleIds.value);
+  }
+};
+
 //查询角色下拉数据
 const getSelect = async () => {
   let res = await getSelectApi();
@@ -258,11 +282,17 @@ const getSelect = async () => {
 
 //新增按钮
 const addBtn = () => {
-  getSelect();
+  tags.value = "0";
   dialog.title = "新增";
   dialog.height = 210;
   //显示弹框
   onShow();
+  //清空下拉数据
+  options.value = [];
+  bindValue.value = [];
+  //获取下拉数据
+  getSelect();
+
   //清空下拉数据
   nextTick(() => {
     selectRef.value.clear();
@@ -273,19 +303,29 @@ const addBtn = () => {
 };
 
 //编辑按钮
-const editBtn = (row: User) => {
-  //清空下拉数据
-  options.value = [];
-  //获取下拉数据
-  getSelect();
+const editBtn = async (row: User) => {
+  tags.value = "1";
   dialog.title = "编辑";
   dialog.height = 230;
+  //清空下拉数据
+  options.value = [];
+  bindValue.value = [];
+  //获取下拉数据
+  await getSelect();
+  //跟据用户ID获取角色数据
+  await getRoleList(row.userId);
+
   //显示弹框
   onShow();
   nextTick(() => {
     //数据回显
     Object.assign(addModel, row);
+    //设置角色ID
+    addModel.roleId = roleIds.value;
+    addModel.password = "";
   });
+
+  console.log(roleIds.value);
   //清空表单
   addForm.value?.resetFields();
 };
@@ -308,9 +348,16 @@ const commit = () => {
   addForm.value?.validate(async (valid) => {
     if (valid) {
       console.log("验证通过");
-      let res = await addApi(addModel);
+      console.log(addModel);
+      let res = null;
+      if (tags.value == "0") {
+        res = await addApi(addModel);
+      } else {
+        res = await editApi(addModel);
+      }
       if (res && res.code == 200) {
         ElMessage.success(res.msg);
+        getList();
         onClose();
       }
     }
@@ -322,6 +369,7 @@ const sizeChange = (size: number) => {
   searchParm.pageSize = size;
   getList();
 };
+
 //页数改变时触发
 const currentChange = (page: number) => {
   searchParm.currentPage = page;

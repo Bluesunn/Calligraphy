@@ -10,3 +10,13 @@ export const addApi = (parm: User) => {
 export const getListApi = (parm: UserListParm) => {
   return http.get("/api/sysUser/list", parm);
 };
+
+//根据拥挤id查询角色
+export const getRoleListApi = (userId: string) => {
+  return http.get("/api/sysUser/getRoleList", { userId: userId });
+};
+
+//编辑
+export const editApi = (parm: User) => {
+  return http.put("/api/sysUser", parm);
+};

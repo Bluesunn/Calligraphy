@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 //下拉数据类型
 type SelectIem = {
@@ -44,6 +44,12 @@ let props = defineProps({
     type: Number,
     default() {
       return 220;
+    },
+  },
+  bindValue: {
+    type: Array<string | number>,
+    default() {
+      return [];
     },
   },
 });
@@ -102,9 +108,28 @@ const selectAll = (isAll: boolean) => {
 const clear = () => {
   selectedOptions.value = [];
 };
+
+//暴露出去
 defineExpose({
   clear,
 });
+
+watch(
+  () => props.bindValue,
+  () => {
+    //设置选中的值
+    selectedOptions.value = props.bindValue;
+    //设置checkbox为选中
+    props.bindValue.forEach((item) => {
+      props.options.find((dom) => {
+        if (dom.value == item) {
+          dom.check = true;
+        }
+      });
+    });
+  },
+  { immediate: true }
+);
 </script>
 
 <style lang="scss">
