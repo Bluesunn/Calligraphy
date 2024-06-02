@@ -50,8 +50,8 @@ public class SysRoleController {
         return ResultUtils.error("删除失败！");
     }
     //列表
-    @GetMapping("/List")
-    public ResultVo List(RoleParm parm){
+    @GetMapping("/getList")
+    public ResultVo getList(RoleParm parm){
         //构造分页对象
         IPage<SysRole> page = new Page<>(parm.getCurrentPage(),parm.getPageSize());
         //构造查询条件
