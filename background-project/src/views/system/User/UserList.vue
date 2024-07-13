@@ -4,12 +4,14 @@
     <el-form :model="searchParm" :inline="true" size="default">
       <el-form-item>
         <el-input
+          @keyup.enter="searchBtn"
           placeholder="请输入姓名"
           v-model="searchParm.nickName"
         ></el-input>
       </el-form-item>
       <el-form-item>
         <el-input
+          @keyup.enter="searchBtn"
           placeholder="请输入电话"
           v-model="searchParm.phone"
         ></el-input>

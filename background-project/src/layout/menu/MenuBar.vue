@@ -84,38 +84,38 @@ let menuList = reactive([
       },
     ],
   },
-  {
-    path: "/goodsRoot",
-    component: "Layout",
-    name: "goodsRoot",
-    meta: {
-      title: "商品管理",
-      icon: "Setting",
-      roles: ["sys:goodsRoot"],
-    },
-    children: [
-      {
-        path: "/category",
-        component: "/goods/Category",
-        name: "category",
-        meta: {
-          title: "物资类型",
-          icon: "UserFilled",
-          roles: ["sys:category"],
-        },
-      },
-      {
-        path: "/goodsList",
-        component: "/goods/GoodsList",
-        name: "goodsList",
-        meta: {
-          title: "商品信息",
-          icon: "Wallet",
-          roles: ["sys:goodsList"],
-        },
-      },
-    ],
-  },
+  // {
+  //   path: "/goodsRoot",
+  //   component: "Layout",
+  //   name: "goodsRoot",
+  //   meta: {
+  //     title: "商品管理",
+  //     icon: "Setting",
+  //     roles: ["sys:goodsRoot"],
+  //   },
+  //   children: [
+  //     {
+  //       path: "/category",
+  //       component: "/goods/Category",
+  //       name: "category",
+  //       meta: {
+  //         title: "物资类型",
+  //         icon: "UserFilled",
+  //         roles: ["sys:category"],
+  //       },
+  //     },
+  //     {
+  //       path: "/goodsList",
+  //       component: "/goods/GoodsList",
+  //       name: "goodsList",
+  //       meta: {
+  //         title: "商品信息",
+  //         icon: "Wallet",
+  //         roles: ["sys:goodsList"],
+  //       },
+  //     },
+  //   ],
+  // },
 ]);
 
 const handleOpen = (key: string, keyPath: string[]) => {

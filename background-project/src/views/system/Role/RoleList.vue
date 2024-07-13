@@ -1,9 +1,15 @@
 <template>
   <el-main>
     <!-- ：model是绑定数据对象用的 -->
-    <el-form :model="searchParm" :inline="true" size="default">
+    <el-form
+      :model="searchParm"
+      :inline="true"
+      size="default"
+      @submit.native.prevent
+    >
       <el-form-item>
         <el-input
+          @keyup.enter="searchBtn"
           placeholder="请输入关键字"
           v-model="searchParm.roleName"
         ></el-input>
@@ -241,10 +247,10 @@ const resetBtn = () => {
   getList();
 };
 onMounted(() => {
+  getList();
   nextTick(() => {
     tableHeight.value = window.innerHeight - 230;
   });
-  getList();
 });
 </script>
 
